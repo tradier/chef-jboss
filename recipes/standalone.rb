@@ -26,6 +26,11 @@ ark 'jboss' do
   owner jboss_user
 end
 
+directory "#{jboss_home}/standalone/log" do
+  owner jboss_user
+  action :create
+end
+
 # template environment variables used by init file
 template "/etc/default/#{jboss_user}" do
   source "default.erb"
@@ -34,7 +39,7 @@ end
 
 # template init file
 template "/etc/init.d/#{jboss_user}" do
-  if platform? ["centos", "redhat"] 
+  if platform? ["centos", "redhat"]
     source "init_standalone_el.erb"
   else
     source "init_deb.erb"
